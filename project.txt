@@ -1,0 +1,25 @@
+Project 
+
+backlog
+========
+enemy
+enemy manager
+cybernetic ability system
+moveset manager
+mission system
+dialogue system
+style meter
+practice dummy animation list
+
+sprint
+========
+actor
+player
+player controller
+player animation list
+
+finished
+========
+moveset manager
+state machine
+inventory system
