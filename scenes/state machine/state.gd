@@ -1,7 +1,7 @@
 extends Node
 class_name State
 
-signal finished (state)
+signal finished (state, arguments)
 
 func initialize (args: Array):
 	pass

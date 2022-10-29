@@ -1,7 +1,6 @@
 extends 'motion.gd'
 
 export var input_wait_time: float = .16;
-export var x_motion: float = 0;
 export var FRICTION: float = .15;
 
 var time: float = input_wait_time;
@@ -27,22 +26,17 @@ func enter (actor: Actor):
 	time = 0
 	attack_input_state = INPUT_STATE.LISTENING
 	ready_for_next_attack = true
-	x_motion = 0
 
 func update (delta, actor: Actor):
-	#x_motion = lerp(x_motion, 0, FRICTION)
-	#velocity = owner.move_and_slide(Vector2(x_motion, 0) * owner.facing)
 	if attack_input_state != INPUT_STATE.LISTENING:
 		return
 	if attack_animation_state == ATTACK_ANIMATION_STATES.IDLE and not used_keys.size():
-		emit_signal("finished", "idle")
+		emit_signal("finished", "idle", [velocity])
 	time -= delta
 	if time > 0 or not used_keys.size(): return
 	
 	var attack: Dictionary
 	
-	# if the used_keys array only has one attack normaly
-	# otherwise try to use a combo
 	if ComboManager.is_move(used_keys):
 		attack = ComboManager.get_move(used_keys)
 	
@@ -51,21 +45,13 @@ func update (delta, actor: Actor):
 	
 	used_keys.clear()
 	
-	if not attack:
-		return
-	
-	# if this attack has an aura cost pay it
-	if attack.has("cost"):
-		if owner.aura < attack.cost:
-			return
-		owner.set_aura(owner.aura - attack.cost)
-	
-	if ready_for_next_attack:
+	if attack and ready_for_next_attack:
 		ready_for_next_attack = false
 		attack_input_state = INPUT_STATE.INACTIVE
 		attack_animation_state = ATTACK_ANIMATION_STATES.ACTIVE
-		owner.animationPlayer.stop()
-		owner.animationPlayer.play(attack.animation)
+		owner.animationPlayer.stop();
+		owner.animationPlayer.play(attack.animation);
+	.update(delta, actor);
 
 func handle_input (event, actor: Actor):
 	if attack_input_state != INPUT_STATE.LISTENING:
@@ -92,10 +78,6 @@ func set_attack_input_listening ():
 # used by animation player to determine when the next action can be taken
 func set_ready_for_next_attack ():
 	ready_for_next_attack = true
-
-#
-func set_x_motion (value: float):
-	x_motion = value
 
 func _on_Animation_finished(_animation):
 	attack_animation_state = ATTACK_ANIMATION_STATES.IDLE

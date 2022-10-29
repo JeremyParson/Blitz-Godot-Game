@@ -3,12 +3,11 @@
 [ext_resource path="res://scenes/actor/scene.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/actor/player/script.gd" type="Script" id=2]
 [ext_resource path="res://scenes/actor/player/states/idle.gd" type="Script" id=3]
-[ext_resource path="res://scenes/actor/player/states/attack.gd" type="Script" id=4]
 [ext_resource path="res://scenes/actor/player/states/move.gd" type="Script" id=5]
 
 [sub_resource type="Animation" id=1]
 resource_name = "idle"
-length = 0.001
+length = 0.1
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Pivot/AnimatedSprite:animation")
@@ -120,6 +119,8 @@ tracks/1/keys = {
 "values": [ 0, 1, 2, 3 ]
 }
 
+[sub_resource type="CapsuleShape2D" id=5]
+
 [node name="Player" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
@@ -130,20 +131,20 @@ anims/punchA = SubResource( 3 )
 anims/punchB = SubResource( 4 )
 
 [node name="AnimatedSprite" parent="Pivot" index="0"]
-frame = 3
+animation = "idle"
+
+[node name="StateMachine" parent="." index="3"]
+START_STATE = NodePath("Idle")
 
 [node name="Idle" type="Node" parent="StateMachine" index="0"]
 script = ExtResource( 3 )
 
-[node name="Attack" type="Node" parent="StateMachine" index="1"]
-script = ExtResource( 4 )
-
-[node name="Move" type="Node" parent="StateMachine" index="2"]
+[node name="Move" type="Node" parent="StateMachine" index="1"]
 script = ExtResource( 5 )
 
-[node name="Node" type="Node" parent="StateMachine" index="3"]
-
-[node name="Jump" type="Node" parent="StateMachine" index="4"]
+[node name="CollisionShape2D" parent="." index="4"]
+position = Vector2( 0, -22 )
+shape = SubResource( 5 )
 
 [node name="Camera2D" type="Camera2D" parent="." index="5"]
 position = Vector2( 0, -22 )
