@@ -4,20 +4,24 @@ backlog
 ========
 enemy
 enemy manager
-
 mission system
 dialogue system
 style meter
 
 sprint
 ========
-practice dummy
-player controller
 cybernetic ability system
-moveset manager
+moveset manager interface
+cybernetics interface
+resource base move system
+command input viewer
+auto locking system
 
 finished
 ========
+practice dummy
+moveset manager
+player controller
 moveset manager
 state machine
 inventory system

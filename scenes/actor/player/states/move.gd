@@ -7,7 +7,7 @@ func update (delta: float, actor: Actor):
 	var input_vector = get_directional_input();
 	
 	if input_vector == Vector2.ZERO:
-		emit_signal("finished", "idle", [velocity]);
+		emit_signal("finished", "idle", [velocity, timer, command_inputs]);
 	
 	var acceleration = input_vector * SPEED;
 	velocity = velocity + (acceleration * delta);
